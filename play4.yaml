@@ -1,0 +1,25 @@
+---
+
+- hosts: slave1
+  become: yes
+  name: Run a script with Ansible
+  tasks:
+  - name: Create File
+    file:
+        path: /tmp/hello_world.sh
+        state: touch
+        mode: u+rwx,g+rwx,o+x
+  
+  - name: Empty the script
+    command: bash -c "/bin/echo > /tmp/hello_world.sh"
+  
+  - name: Add content to the script
+    blockinfile:
+        path: /tmp/hello_world.sh
+        block: |
+                #!/bin/bash
+                echo Hello World >> /tmp/test_output
+                chown ubuntu:ubuntu /tmp/test_output
+  
+  - name: Run the script
+    command: /bin/bash /tmp/hello_world.sh

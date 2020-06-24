@@ -1,0 +1,10 @@
+- hosts: slave1
+  become: yes
+  name: play1
+  tasks:
+       - name: Install GIT on SLAVE 1
+         apt: 
+             name: git 
+             state: present
+             update_cache: yes
+

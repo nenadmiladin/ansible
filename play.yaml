@@ -1,0 +1,35 @@
+---
+
+- hosts: slave1
+  become: yes
+  name: play1
+  tasks:
+  - name: Create File
+    file:
+            path: /tmp/test_FILE_2
+            state: touch
+            owner: root
+            group: root
+            mode: '777'
+  - name: Find Disk space
+    command: "df -h"
+    register: result
+  
+  - debug: var=result.stdout_lines
+
+- hosts: slave2
+  become: yes
+  name: play2
+  tasks:
+  - name: Create File
+    file:
+            path: /tmp/test_FILE_2
+            state: touch
+            owner: root
+            group: root
+            mode: '777'
+  - name: Find Disk space
+    command: "df -h"
+    register: result
+
+  - debug: var=result.stdout_lines

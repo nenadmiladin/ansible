@@ -1,0 +1,17 @@
+---
+
+- hosts: slave1
+  become: yes
+  name: play2
+  tasks:
+  - name: Create File
+    file:
+          path: /opt/blog.txt
+          state: touch
+  - name: 
+    acl:
+          path: /opt/blog.txt
+          entity: root
+          etype: group
+          permissions: r 
+          state: present   

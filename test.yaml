@@ -1,0 +1,10 @@
+---
+# ./hello_world.yml
+
+- name: print greeting
+  hosts: "*"
+  tasks:
+    - include_vars: /home/ubuntu/ansible/data/users.yml
+
+    - debug: msg="Hello, {{ admins }}!"
+    - debug: msg="Hello, {{ developers }}!"

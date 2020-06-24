@@ -1,0 +1,50 @@
+- hosts: all
+  become: true
+  vars: 
+       developers_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          63356534306237393032656135316436326332356463373134333438393662653766626264643336
+          3233633639356161626338326466323937316464323031310a623236393936636339303132376164
+          39656635656366333832393565663462306262643530643432343939633734353764383064363630
+          6538396532313530300a613439353330383138373863393366356138336432353233643663666632
+          3465
+       admins_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          36323362643866646236323138613066396364633733336434306239356332633032666534613066
+          3066313235663935613366613238393432383337396137330a653939313630343033373130633230
+          61616363633232326661633061613435373031616135353037316664636662316565656363636365
+          6132313037613836660a363866636665323863306335336133306263313830623236666666646264
+          3462
+  vars_files:
+      - /home/ubuntu/ansible/data/users.yml
+  tasks:
+      - name: Add group admins
+        group:
+         name: admins
+         state: present
+      - name: Add group developers 
+        group: 
+          name: developers
+          state: present
+
+      - name: Add admins users
+        user:
+         name: "{{ item }}"
+         state: present
+         groups: admins, sudo
+         password: "{{ developers_pass | string | password_hash('sha512') }}"
+        with_items: "{{ admins }}"
+      - name: Add developers users  
+        user:
+         name: "{{ item }}"
+         state: present
+         home: /var/www
+         password: "{{ admins_pass | string | password_hash('sha512') }}"
+         groups: developers
+        with_items: "{{ developers }}"
+      - name: Check the developer password
+        debug:
+           msg: 'The DEVELOPER password is: "{{ developers_pass }}"'
+      - name: Check the admin password 
+        debug:
+           msg: 'The ADMIN password is: "{{ admins_pass }}"'

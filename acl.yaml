@@ -1,0 +1,48 @@
+---
+- hosts: stapp01
+  become: yes
+  name: play1
+  tasks:
+  - name: Create File
+    file:
+          path: /opt/data/blog.txt
+          state: touch
+  - name:
+    acl:
+          path: /opt/data/blog.txt
+          entity: tony
+          etype: group
+          permissions: r
+          state: present
+
+- hosts: stapp02
+  become: yes
+  name: play2
+  tasks:
+  - name: Create File
+    file:
+          path: /opt/data/story.txt
+          state: touch
+  - name:
+    acl:
+          path: /opt/data/story.txt
+          entity: steve
+          etype: user
+          permissions: rw
+          state: present
+
+- hosts: stapp03
+  become: yes
+  name: play3
+  tasks:
+  - name: Create File
+    file:
+          path: /opt/data/media.txt
+          state: touch
+  - name:
+    acl:
+          path: /opt/data/media.txt
+          entity: banner
+          etype: group
+          permissions: rw
+          state: present

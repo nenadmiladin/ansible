@@ -32,14 +32,14 @@
          name: "{{ item }}"
          state: present
          groups: admins, sudo
-         password: "{{ developers_pass | string | password_hash('sha512') }}"
+         password: "{{ admins_pass | string | password_hash('sha512') }}"
         with_items: "{{ admins }}"
       - name: Add developers users  
         user:
          name: "{{ item }}"
          state: present
          home: /var/www
-         password: "{{ admins_pass | string | password_hash('sha512') }}"
+         password: "{{ developers_pass | string | password_hash('sha512') }}"
          groups: developers
         with_items: "{{ developers }}"
       - name: Check the developer password

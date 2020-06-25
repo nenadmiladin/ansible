@@ -1,3 +1,6 @@
+---
+# Add groups and users, set home and passwords, encrypt pass
+# with ansible-vault 
 - hosts: all
   become: true
   vars: 

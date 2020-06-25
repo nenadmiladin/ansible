@@ -1,9 +1,0 @@
-- hosts: slave1
-  become: yes
-  name: play1
-  tasks:
-       - name: Install htop on SLAVE 2
-         yum: 
-             name: htop 
-             state: latest
-

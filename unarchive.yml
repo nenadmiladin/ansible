@@ -1,0 +1,15 @@
+# KodeKloud task to unzip an archive on every node host
+# The extracted data should be owned by the node sudo user
+
+---
+- name: Unzip file on m ultiple hosts
+  hosts: all
+  become: true
+  tasks:
+  - name: Extract files
+    unarchive:
+      src: /usr/src/sysops/datacenter.zip
+      dest: /opt/sysops/
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      mode: 0755

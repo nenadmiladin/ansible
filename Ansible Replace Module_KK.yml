@@ -13,7 +13,7 @@
   name: play1
   tasks:
   - name: Replace /opt/finance/blog.txt
-	replace: 
+    replace: 
     path: /opt/finance/blog.txt
     regexp: 'xFusionCorp'
     replace: 'Nautilus'
